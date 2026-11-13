@@ -138,7 +138,8 @@ class InvoiceService
             ->where('due_date', '<', now())
             ->orderBy('due_date')
             ->get()
-            ->map(function (Invoice $invoice) {
+            ->map(function ($invoice) {
+                /** @var Invoice $invoice */
                 $invoice->calculated_penalty = $this->contractService->calculatePenalty(
                     (float) $invoice->amount,
                     $invoice->due_date

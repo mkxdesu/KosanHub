@@ -14,12 +14,12 @@ class Invoice extends Model
 
     protected $fillable = [
         'contract_id',
-        'period',          // YYYY-MM
+        'period',
         'due_date',
-        'amount',          // nominal sewa (bisa proporsional)
-        'penalty',         // denda
+        'amount',
+        'penalty',
         'total',
-        'status',          // unpaid, paid, overdue
+        'status',
         'notes',
     ];
 
@@ -47,8 +47,15 @@ class Invoice extends Model
 
     public function isOverdue(): bool
     {
-        return $this->status === 'overdue' || 
-               ($this->status === 'unpaid' && $this->due_date->isPast());
+        if ($this->status === 'overdue') {
+            return true;
+        }
+
+        if ($this->status === 'unpaid' && $this->due_date instanceof Carbon) {
+            return $this->due_date->isPast();
+        }
+
+        return false;
     }
 
     /**
@@ -56,22 +63,32 @@ class Invoice extends Model
      */
     public function calculatePenalty(): float
     {
-        if ($this->isPaid() || !$this->due_date->isPast()) {
+        if ($this->isPaid()) {
             return 0;
         }
 
-        $weeksLate = Carbon::parse($this->due_date)->diffInWeeks(now());
-        $penaltyRate = min($weeksLate * 0.02, 0.10); // max 10%
+        $dueDate = $this->due_date instanceof Carbon
+            ? $this->due_date
+            : Carbon::parse($this->due_date);
 
-        return round($this->amount * $penaltyRate, 2);
+        if (!$dueDate->isPast()) {
+            return 0;
+        }
+
+        $weeksLate   = $dueDate->diffInWeeks(now());
+        $penaltyRate = min($weeksLate * 0.02, 0.10);
+
+        return round((float) $this->amount * $penaltyRate, 2);
     }
 
     public function markAsPaid(): void
     {
+        $penalty = $this->calculatePenalty();
+
         $this->update([
             'status'  => 'paid',
-            'penalty' => $this->calculatePenalty(),
-            'total'   => $this->amount + $this->calculatePenalty(),
+            'penalty' => $penalty,
+            'total'   => $this->amount + $penalty,
         ]);
     }
 }

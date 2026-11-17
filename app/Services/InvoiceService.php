@@ -118,10 +118,18 @@ class InvoiceService
                 'note' => $data['note'] ?? null,
             ]);
 
+            $totalPaid = round(
+                (float) Payment::where('invoice_id', $invoice->id)->sum('amount'),
+                2
+            );
+            $status = $totalPaid >= round($totalDue, 2)
+                ? 'paid'
+                : ($invoice->due_date->isPast() ? 'overdue' : 'unpaid');
+
             $invoice->update([
                 'penalty' => $penalty,
                 'total' => $totalDue,
-                'status' => 'paid',
+                'status' => $status,
             ]);
 
             return $payment;

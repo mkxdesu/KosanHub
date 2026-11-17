@@ -1,0 +1,5 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/invoices
+method: GET
+examples: .resources/Get Invoice.resources/examples
+order: 1794748078223

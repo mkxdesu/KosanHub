@@ -1,0 +1,14 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/invoices/generate
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"contract_id\": 2,\r
+
+    \  \"period\": \"2026-11\"\r
+
+    }"
+examples: .resources/Generate Invoice.resources/examples
+order: 1067587918208790

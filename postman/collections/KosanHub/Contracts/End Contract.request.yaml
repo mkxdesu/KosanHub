@@ -1,0 +1,16 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/contracts/2/end
+method: POST
+body:
+  type: json
+  content: "// {\r
+
+    //   \"end_date\": \"2027-06-30\"\r
+
+    // }\r
+
+    \r
+
+    // // optional, if omitted will use current date"
+examples: .resources/End Contract.resources/examples
+order: 4356615644278793

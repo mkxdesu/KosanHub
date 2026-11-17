@@ -1,0 +1,22 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/contracts
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"room_id\": 1,\r
+
+    \  \"tenant_id\": 1,\r
+
+    \  \"start_date\": \"2026-11-15\",\r
+
+    \  \"end_date\": \"2027-11-14\",\r
+
+    \  \"monthly_rent\": 1700000,\r
+
+    \  \"notes\": \"One-year rental\"\r
+
+    }"
+examples: .resources/Create Contract.resources/examples
+order: 4314871279964659

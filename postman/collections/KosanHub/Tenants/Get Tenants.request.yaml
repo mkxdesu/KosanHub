@@ -1,0 +1,5 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/tenants
+method: GET
+examples: .resources/Get Tenants.resources/examples
+order: 1794747610047

@@ -1,0 +1,13 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/tenants/1
+method: PUT
+body:
+  type: json
+  content: "{\r
+
+    \  \"phone\": \"081234567891\",\r
+
+    \  \"email\": \"mkxdesu@gmail.com\"\r
+
+    }"
+order: 1438257349009359

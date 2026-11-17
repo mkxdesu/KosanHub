@@ -1,0 +1,16 @@
+$kind: http-request
+name: Edit Room
+url: http://127.0.0.1:8000/api/rooms/1
+method: PUT
+body:
+  type: json
+  content: "{\r
+
+    \  \"room_number\": \"A-1\",\r
+
+    \  \"monthly_rent\": 1900000,\r
+
+    \  \"status\": \"available\"\r
+
+    }"
+order: 2661210072738065

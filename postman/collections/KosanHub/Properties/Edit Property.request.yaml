@@ -1,0 +1,14 @@
+$kind: http-request
+name: Edit Property
+url: http://127.0.0.1:8000/api/properties/1
+method: PUT
+body:
+  type: json
+  content: "{\r
+
+    \  \"name\": \"Kos Margorejo 139\",\r
+
+    \  \"city\": \"Surabaya\"\r
+
+    }"
+order: 4350745748204699

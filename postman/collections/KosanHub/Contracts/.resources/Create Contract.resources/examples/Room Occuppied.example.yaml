@@ -1,0 +1,39 @@
+$kind: http-example
+request:
+  url: http://127.0.0.1:8000/api/contracts
+  method: POST
+  body:
+    type: json
+    content: "{\r
+
+      \  \"room_id\": 1,\r
+
+      \  \"tenant_id\": 1,\r
+
+      \  \"start_date\": \"2026-11-16\",\r
+
+      \  \"end_date\": \"2027-11-15\",\r
+
+      \  \"monthly_rent\": 1700000,\r
+
+      \  \"notes\": \"One-year rental\"\r
+
+      }"
+response:
+  statusCode: 422
+  statusText: Unprocessable Content
+  headers:
+    Host: 127.0.0.1:8000
+    Connection: close
+    X-Powered-By: PHP/8.2.12
+    Cache-Control: no-cache, private
+    Date: Tue, 17 Nov 2026 07:02:48 GMT
+    Content-Type: application/json
+    Access-Control-Allow-Origin: "*"
+  body:
+    type: json
+    content: |-
+      {
+        "message": "Kamar ini sudah memiliki kontrak aktif. Tidak boleh double booking."
+      }
+order: 2000

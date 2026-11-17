@@ -1,0 +1,20 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/rooms
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"property_id\": 1,\r
+
+    \  \"room_number\": \"D\",\r
+
+    \  \"monthly_rent\": 1700000,\r
+
+    \  \"status\": \"available\" // \"available\", \"occupied\", or \"maintenance\"\r
+
+    \  // optional: \"floor\" and \"description\"\r
+
+    }"
+examples: .resources/Add Room.resources/examples
+order: 1794747246879

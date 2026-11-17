@@ -1,0 +1,16 @@
+$kind: http-request
+name: Add Property
+url: http://127.0.0.1:8000/api/properties
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"name\": \"Kos Margorejo 139\",\r
+
+    \  \"address\": \"Jl. Margorejo No. 139\",\r
+
+    \  \"city\": \"Surabaya\"\r
+
+    }"
+order: 2779247875110434

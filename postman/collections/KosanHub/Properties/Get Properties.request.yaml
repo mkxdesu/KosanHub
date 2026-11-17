@@ -1,0 +1,5 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/properties
+method: GET
+examples: .resources/Get Properties.resources/examples
+order: 1794747070698

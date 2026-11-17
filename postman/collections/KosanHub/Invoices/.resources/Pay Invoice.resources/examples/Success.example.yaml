@@ -1,0 +1,60 @@
+$kind: http-example
+request:
+  url: http://127.0.0.1:8000/api/invoices/2/pay
+  method: POST
+  body:
+    type: json
+    content: "{\r
+
+      \  \"amount\": 1700000,\r
+
+      \  \"paid_at\": \"2026-11-15\",\r
+
+      \  \"method\": \"transfer\",\r
+
+      \  \"reference\": \"TX-123456\",\r
+
+      \  \"note\": \"November rent\"\r
+
+      }"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Host: 127.0.0.1:8000
+    Connection: close
+    X-Powered-By: PHP/8.2.12
+    Cache-Control: no-cache, private
+    Date: Tue, 17 Nov 2026 07:04:15 GMT
+    Content-Type: application/json
+    Access-Control-Allow-Origin: "*"
+  body:
+    type: json
+    content: |-
+      {
+        "message": "Pembayaran berhasil dicatat",
+        "payment": {
+          "invoice_id": 2,
+          "amount": "1700000.00",
+          "paid_at": "2026-11-15T00:00:00.000000Z",
+          "method": "transfer",
+          "reference": "TX-123456",
+          "note": "November rent",
+          "updated_at": "2026-11-17T07:04:14.000000Z",
+          "created_at": "2026-11-17T07:04:14.000000Z",
+          "id": 2
+        },
+        "invoice": {
+          "id": 2,
+          "contract_id": 2,
+          "period": "2026-11",
+          "due_date": "2026-12-07T00:00:00.000000Z",
+          "amount": "906666.67",
+          "penalty": "0.00",
+          "total": "906666.67",
+          "status": "paid",
+          "created_at": "2026-11-17T07:03:54.000000Z",
+          "updated_at": "2026-11-17T07:04:14.000000Z"
+        }
+      }
+order: 1000

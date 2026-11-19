@@ -2,10 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Jobs\GenerateMonthlyInvoicesJob;
 use App\Models\Property;
 use App\Models\Room;
 use App\Models\Tenant;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Bus;
 use Tests\TestCase;
 
 class ContractInvoiceFlowTest extends TestCase
@@ -54,5 +56,33 @@ class ContractInvoiceFlowTest extends TestCase
             ->assertJsonPath('payment.reference', 'TRX-001');
 
         $this->assertNotSame('paid', $paymentResponse->json('invoice.status'));
+    }
+
+    public function test_monthly_invoice_generation_is_queued_on_redis(): void
+    {
+        Bus::fake();
+
+        $this->postJson('/api/invoices/generate-monthly', [
+            'period' => '2026-11',
+        ])
+            ->assertAccepted()
+            ->assertJsonPath('period', '2026-11');
+
+        Bus::assertDispatched(
+            GenerateMonthlyInvoicesJob::class,
+            fn (GenerateMonthlyInvoicesJob $job) => $job->period === '2026-11'
+                && $job->connection === 'redis'
+        );
+    }
+
+    public function test_monthly_invoice_generation_rejects_an_invalid_period(): void
+    {
+        Bus::fake();
+
+        $this->postJson('/api/invoices/generate-monthly', [
+            'period' => '2026-13',
+        ])->assertUnprocessable();
+
+        Bus::assertNotDispatched(GenerateMonthlyInvoicesJob::class);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\GenerateMonthlyInvoicesJob;
 use App\Models\Contract;
 use App\Models\Invoice;
 use App\Services\InvoiceService;
@@ -63,10 +64,18 @@ class InvoiceController extends Controller
 
     public function generateMonthly(Request $request)
     {
-        $period = $request->input('period');
-        $result = $this->invoiceService->generateMonthly($period);
+        $data = $request->validate([
+            'period' => 'nullable|date_format:Y-m',
+        ]);
 
-        return response()->json($result);
+        $period = $data['period'] ?? now()->format('Y-m');
+
+        GenerateMonthlyInvoicesJob::dispatch($period)->onConnection('redis');
+
+        return response()->json([
+            'message' => 'Monthly invoice generation has been queued.',
+            'period' => $period,
+        ], 202);
     }
 
     public function pay(Invoice $invoice, Request $request)

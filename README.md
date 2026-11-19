@@ -12,7 +12,7 @@
 ## Fitur Wajib
 - CRUD Property & Room
 - Data Tenant & Contract
-- Pembuatan Tagihan Bulanan (otomatis via Worker)
+- Pembuatan Tagihan Bulanan (asinkron via Redis Worker)
 - Pencatatan Pembayaran
 - Daftar Tunggakan
 
@@ -23,4 +23,4 @@
 4. Tagihan bulanan **tidak boleh terbit dua kali** untuk periode yang sama.
 
 ## Tantangan DevOps
-Container **worker** terpisah yang memproses job pembuatan tagihan dari queue (database queue). Smoke Test memicu pembuatan tagihan dan memastikan worker memprosesnya.
+Container **worker** terpisah yang memproses job pembuatan tagihan dari Redis queue. Atur `QUEUE_CONNECTION=redis` dan `REDIS_CLIENT=predis` di `.env`, lalu jalankan `php artisan queue:work redis`. Endpoint `POST /api/invoices/generate-monthly` menerima periode opsional (`YYYY-MM`) dan mengembalikan `202 Accepted` setelah job masuk queue. Worker perlu berjalan agar tagihan diproses.

@@ -24,3 +24,14 @@
 
 ## Tantangan DevOps
 Container **worker** terpisah yang memproses job pembuatan tagihan dari Redis queue. Atur `QUEUE_CONNECTION=redis` dan `REDIS_CLIENT=predis` di `.env`, lalu jalankan `php artisan queue:work redis`. Endpoint `POST /api/invoices/generate-monthly` menerima periode opsional (`YYYY-MM`) dan mengembalikan `202 Accepted` setelah job masuk queue. Worker perlu berjalan agar tagihan diproses.
+
+## Menjalankan aplikasi
+Salin `.env.example` menjadi `.env`, atur kredensial MySQL dan Redis, lalu jalankan:
+
+```sh
+php artisan key:generate
+php artisan migrate --seed
+php artisan serve
+```
+
+`php artisan migrate --seed` membuat skema dan data demo (properti, kamar, penyewa, dan kontrak). Jalankan `php artisan test` untuk tes otomatis. `GET /health` mengembalikan status HTTP 200 serta status koneksi database.

@@ -17,8 +17,8 @@ Route::get('/health', function () {
         ]);
     } catch (PDOException $exception) {
         return response()->json([
-            'status' => 'ok',
+            'status' => 'error',
             'database' => 'disconnected',
-        ]);
+        ],503);
     }
 });

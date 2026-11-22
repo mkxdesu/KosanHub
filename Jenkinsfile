@@ -145,11 +145,6 @@ pipeline {
 
                                 echo Application health check passed.
 
-                                echo Seeding demo data...
-
-                                docker compose exec -T app php artisan db:seed --class=KosanDemoSeeder --force
-                                if errorlevel 1 exit /b 1
-
                                 echo Checking container status...
 
                                 docker compose ps
@@ -165,7 +160,7 @@ pipeline {
 
         stage('Smoke Test') {
             steps {
-                echo 'Running application and Redis worker smoke tests...'
+                echo 'Running application health and database smoke tests...'
 
                 bat 'powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File scripts\\smoke-test.ps1'
 
@@ -184,7 +179,7 @@ pipeline {
             All six stages completed successfully.
             Docker image deployed from Docker Hub.
             Application health check passed.
-            Redis worker smoke test passed.
+            Database connectivity verified.
             ==========================================
             '''
         }

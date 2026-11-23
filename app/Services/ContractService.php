@@ -21,7 +21,7 @@ class ContractService
         }
 
         $daysInMonth = $periodDate->daysInMonth;
-        $daysActive = $contractStart->diffInDays($periodDate->copy()->endOfMonth()) + 1;
+        $daysActive = $daysInMonth - $contractStart->day + 1;
 
         if ($daysActive <= 0 || $daysInMonth <= 0) {
             return 0.0;
@@ -38,11 +38,11 @@ class ContractService
     {
         $due = $dueDate instanceof Carbon ? $dueDate : Carbon::parse($dueDate);
 
-        if (!$due->isPast()) {
+        if (! $due->isPast()) {
             return 0.0;
         }
 
-        $weeksLate = max(0, $due->diffInWeeks(now()));
+        $weeksLate = max(0, (int) floor($due->diffInWeeks(now())));
         $penaltyRate = min($weeksLate * 0.02, 0.10);
 
         return round((float) $amount * $penaltyRate, 2);
